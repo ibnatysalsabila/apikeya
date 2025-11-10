@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API Key Generator</title>
     <style>
-      /* Reset dan Font Dasar */
       :root {
         --navy-darkest: #0a192f;
         --navy-dark: #112a4a;
@@ -14,7 +13,7 @@
         --accent-hover: #0056b3;
         --text-light: #f0f4f8;
         --text-dark: #a8b2d1;
-        --key-text: #76f1ad; /* Warna hijau neon untuk key */
+        --key-text: #76f1ad; 
         --border-color: #004a99;
       }
 
@@ -32,7 +31,6 @@
         box-sizing: border-box;
       }
 
-      /* Kontainer Utama */
       .container {
         background-color: var(--navy-dark);
         padding: 2rem 2.5rem;
@@ -44,7 +42,6 @@
         border: 1px solid var(--border-color);
       }
 
-      /* Judul */
       h1 {
         color: var(--text-light);
         margin-top: 0;
@@ -58,7 +55,6 @@
         margin-bottom: 2rem;
       }
 
-      /* Tombol Generate Utama */
       #generateBtn {
         font-family: inherit;
         font-size: 1rem;
@@ -81,7 +77,6 @@
         box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
       }
 
-      /* Area Output Key */
       .output-label {
         display: block;
         text-align: left;
@@ -90,29 +85,25 @@
         margin-bottom: 0.5rem;
       }
 
-      /* === PERUBAHAN CSS DIMULAI DI SINI === */
 
       .output-container {
-        /* 1. Menggunakan position relative untuk menjadi 'parent' dari tombol copy */
         position: relative;
         width: 100%;
       }
 
-      /* Text Area */
       textarea#apiKeyArea {
         font-family: "Courier New", Courier, monospace;
         font-size: 1.1rem;
         width: 100%;
         padding: 0.75rem;
         background-color: var(--navy-darkest);
-        color: var(--key-text); /* Warna teks key */
+        color: var(--key-text); 
         border: 1px solid var(--border-color);
-        border-radius: 5px; /* Radius di semua sisi */
+        border-radius: 5px; 
         resize: none;
-        box-sizing: border-box; /* Penting untuk padding */
+        box-sizing: border-box; 
         outline: none;
 
-        /* 2. Memberi ruang di kanan agar teks tidak tertulis di bawah tombol */
         padding-right: 6.5rem;
       }
 
@@ -125,7 +116,6 @@
         box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
       }
 
-      /* Tombol Copy */
       #copyBtn {
         font-family: inherit;
         font-size: 0.9rem; /* Sedikit lebih kecil */
@@ -138,7 +128,6 @@
         background-color: var(--navy-light);
         color: var(--text-light);
 
-        /* 3. Diposisikan secara absolut di dalam .output-container */
         position: absolute;
         top: 50%;
         right: 0.75rem;
@@ -148,7 +137,6 @@
       #copyBtn:hover {
         background-color: var(--accent-blue);
       }
-      /* === PERUBAHAN CSS BERAKHIR DI SINI === */
     </style>
   </head>
   <body>
@@ -171,69 +159,4 @@
       </div>
     </div>
 
-    <script>
-      /**
-       * Fungsi untuk menghasilkan API key yang aman menggunakan Crypto API
-       */
-      function generateApiKey() {
-        // Menghasilkan 32 byte nilai acak (akan menjadi 64 karakter hex)
-        const array = new Uint8Array(32);
-        window.crypto.getRandomValues(array);
-
-        // Mengubah byte array menjadi string hex
-        const hexString = Array.from(array, (byte) =>
-          byte.toString(16).padStart(2, "0")
-        ).join("");
-
-        // Menambahkan prefix yang umum (opsional)
-        return `sk_live_${hexString}`;
-      }
-
-      /**
-       * Fungsi untuk menyalin teks ke clipboard
-       */
-      function copyToClipboard(text, buttonElement) {
-        if (!text) {
-          alert("Tidak ada API key untuk disalin. Buat satu terlebih dahulu.");
-          return;
-        }
-
-        navigator.clipboard
-          .writeText(text)
-          .then(() => {
-            // === INI ADALAH BAGIAN UNTUK PESAN "DISALIN" ===
-            const originalText = buttonElement.textContent;
-            buttonElement.textContent = "Disalin!";
-            buttonElement.style.backgroundColor = "#28a745"; // Warna hijau sukses
-
-            setTimeout(() => {
-              buttonElement.textContent = originalText;
-              buttonElement.style.backgroundColor = "var(--navy-light)";
-            }, 2000); // Kembali ke normal setelah 2 detik
-            // === AKHIR BAGIAN PESAN ===
-          })
-          .catch((err) => {
-            console.error("Gagal menyalin ke clipboard: ", err);
-            alert("Gagal menyalin. Silakan salin secara manual.");
-          });
-      }
-
-      // --- Event Listeners ---
-
-      const generateButton = document.getElementById("generateBtn");
-      const copyButton = document.getElementById("copyBtn");
-      const apiKeyTextarea = document.getElementById("apiKeyArea");
-
-      // Event listener untuk tombol "Generate"
-      generateButton.addEventListener("click", () => {
-        const newKey = generateApiKey();
-        apiKeyTextarea.value = newKey;
-      });
-
-      // Event listener untuk tombol "Copy"
-      copyButton.addEventListener("click", () => {
-        copyToClipboard(apiKeyTextarea.value, copyButton);
-      });
-    </script>
-  </body>
-</html>
+    
